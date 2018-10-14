@@ -16,6 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".News.NewsActivity" />
+        <activity android:name=".Profile.ProfileActivity" />
+        <activity android:name=".Search.SearchActivity" />
+        <activity android:name=".Share.ShareActivity"></activity>
     </application>
 
 </manifest>

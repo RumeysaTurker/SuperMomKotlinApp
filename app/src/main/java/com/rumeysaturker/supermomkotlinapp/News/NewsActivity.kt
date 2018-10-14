@@ -1,4 +1,4 @@
-package com.rumeysaturker.supermomkotlinapp
+package com.rumeysaturker.supermomkotlinapp.News
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -6,9 +6,10 @@ import com.rumeysaturker.supermomkotlinapp.R
 import com.rumeysaturker.supermomkotlinapp.utils.BottomNavigationViewHelper
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity : AppCompatActivity() {
-    private val ACTIVITY_NUMBER = 0
-    private val TAG = "HomeActivity"
+class NewsActivity : AppCompatActivity() {
+
+    private val ACTIVITY_NUMBER = 3
+    private val TAG = "NewsActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)

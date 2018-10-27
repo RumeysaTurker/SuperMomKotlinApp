@@ -14,7 +14,7 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/toolbar_color"
+            android:background="@color/colorAccent"
             app:layout_constraintBottom_toTopOf="@+id/homeViewPager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -120,9 +120,10 @@
             android:background="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_navigation_menu"
-            app:layout_constraintTop_toBottomOf="@+id/homeViewPager"></com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx>
+            app:layout_constraintTop_toBottomOf="@+id/homeViewPager"
+            app:menu="@menu/bottom_navigation_menu"></com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx>
 
     </android.support.constraint.ConstraintLayout>
 

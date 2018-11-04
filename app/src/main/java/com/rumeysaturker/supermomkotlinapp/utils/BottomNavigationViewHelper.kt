@@ -5,7 +5,7 @@ import android.content.Intent
 import android.support.design.widget.BottomNavigationView
 import android.view.MenuItem
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
-import com.rumeysaturker.supermomkotlinapp.HomeActivity
+import com.rumeysaturker.supermomkotlinapp.Home.HomeActivity
 import com.rumeysaturker.supermomkotlinapp.News.NewsActivity
 import com.rumeysaturker.supermomkotlinapp.Profile.ProfileActivity
 import com.rumeysaturker.supermomkotlinapp.R

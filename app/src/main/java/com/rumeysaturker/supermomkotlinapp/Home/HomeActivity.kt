@@ -1,21 +1,26 @@
-package com.rumeysaturker.supermomkotlinapp
+package com.rumeysaturker.supermomkotlinapp.Home
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.rumeysaturker.supermomkotlinapp.Home.GorevFragment
-import com.rumeysaturker.supermomkotlinapp.Home.HomeFragment
-import com.rumeysaturker.supermomkotlinapp.Home.MessagesFragment
+import android.support.v7.app.AppCompatActivity
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
+import com.nostra13.universalimageloader.core.ImageLoader
 import com.rumeysaturker.supermomkotlinapp.R
 import com.rumeysaturker.supermomkotlinapp.utils.BottomNavigationViewHelper
 import com.rumeysaturker.supermomkotlinapp.utils.HomePagerAdapter
+import com.rumeysaturker.supermomkotlinapp.utils.UniversalImageLoader
 import kotlinx.android.synthetic.main.activity_home.*
 
+@Suppress("DEPRECATION")
 class HomeActivity : AppCompatActivity() {
     private val ACTIVITY_NUMBER = 0
     private val TAG = "HomeActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        FacebookSdk.sdkInitialize(applicationContext)
+        AppEventsLogger.activateApp(this)
+        initImageLoader()
         setupNavigationView()
         setupHomeViewPager()
     }
@@ -38,6 +43,12 @@ class HomeActivity : AppCompatActivity() {
         homeViewPager.adapter = homePagerAdapter
         //viewpager, homefragment'iyle başlasın
         homeViewPager.setCurrentItem(1)
+
+    }
+
+    private fun initImageLoader() {
+        var universalImageLoader = UniversalImageLoader(this)
+        ImageLoader.getInstance().init(universalImageLoader.config)//configuration dosyasını yolluyoruz.
 
     }
 

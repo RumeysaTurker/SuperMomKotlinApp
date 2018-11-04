@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "573878549300",
+    "firebase_url": "https://kotlinanneleryarisiyor.firebaseio.com",
+    "project_id": "kotlinanneleryarisiyor",
+    "storage_bucket": "kotlinanneleryarisiyor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573878549300:android:6334232caf3362fe",
+        "android_client_info": {
+          "package_name": "com.rumeysaturker.supermomkotlinapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573878549300-bpuglqt838d4eqkki7gjklnvsiflt54c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rumeysaturker.supermomkotlinapp",
+            "certificate_hash": "c31896b2e7f791caddb78d3beb2749892662317f"
+          }
+        },
+        {
+          "client_id": "573878549300-fgo8hnjr84lh6ueke0pvqjeau6ig43uh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfX1rydAUYfzHx8RvPJklKGAcNhOtlH88"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "573878549300-fgo8hnjr84lh6ueke0pvqjeau6ig43uh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

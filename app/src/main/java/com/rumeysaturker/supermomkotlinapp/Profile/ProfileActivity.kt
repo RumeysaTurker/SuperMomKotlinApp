@@ -3,8 +3,10 @@ package com.rumeysaturker.supermomkotlinapp.Profile
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.rumeysaturker.supermomkotlinapp.R
 import com.rumeysaturker.supermomkotlinapp.utils.BottomNavigationViewHelper
+import com.rumeysaturker.supermomkotlinapp.utils.UniversalImageLoader
 import kotlinx.android.synthetic.main.activity_profile.*
 
 
@@ -18,7 +20,14 @@ class ProfileActivity : AppCompatActivity() {
 
         setupToolBar()
         setupNavigationView()
+        setupProfilePhoto()
     }
+
+    private fun setupProfilePhoto() {
+        val imgURL="www.theoceancleanup.com/fileadmin/media-archive/img/Pages/About/About_header_ocean.jpg"
+        UniversalImageLoader.setImage(imgURL, circleProfileImage, progressBar, "https://")
+    }
+
     //aktivite başlatma, imgProfileSettings ikonuna tıklanıldığında ProfileSettingsActivity'i başlat
     private fun setupToolBar() {
         imgProfileSettings.setOnClickListener{
@@ -33,5 +42,9 @@ class ProfileActivity : AppCompatActivity() {
         var menu = bottomNavigationView.menu
         var menuItem = menu.getItem(ACTIVITY_NUMBER)
         menuItem.setChecked(true)
+    }
+    override fun onBackPressed(){
+        profileRoot.visibility= View.VISIBLE
+        super.onBackPressed()
     }
 }

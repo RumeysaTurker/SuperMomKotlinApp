@@ -35,7 +35,7 @@ class TelefonKoduGirFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        var view = inflater.inflate(R.layout.fragment_telefon_kodu_gir, container, false)
+        var view = inflater!!.inflate(R.layout.fragment_telefon_kodu_gir, container, false)
         val view2 = inflater.inflate(R.layout.activity_register, container, false)
 
         ccp = view2.findViewById<CountryCodePicker>(R.id.ccp)
@@ -87,6 +87,7 @@ class TelefonKoduGirFragment : Fragment() {
             override fun onVerificationFailed(e: FirebaseException) {
 
                 Log.e("Hata", "Hata Çıktı" + e.message)
+                progressBar.visibility=View.INVISIBLE
             }
 
             override fun onCodeSent(

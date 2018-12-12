@@ -160,17 +160,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/phoneAuth" />
+            app:layout_constraintTop_toBottomOf="@+id/phoneAuth"
+            android:focusableInTouchMode="true"/>
 
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/btnLoginFacebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/golgelik"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+
 
         <View
             android:id="@+id/golgelik"

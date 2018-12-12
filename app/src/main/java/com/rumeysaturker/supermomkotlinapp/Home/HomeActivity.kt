@@ -1,10 +1,11 @@
 package com.rumeysaturker.supermomkotlinapp.Home
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.facebook.FacebookSdk
-import com.facebook.appevents.AppEventsLogger
+import com.google.firebase.auth.FirebaseAuth
 import com.nostra13.universalimageloader.core.ImageLoader
+import com.rumeysaturker.supermomkotlinapp.Login.LoginActivity
 import com.rumeysaturker.supermomkotlinapp.R
 import com.rumeysaturker.supermomkotlinapp.utils.BottomNavigationViewHelper
 import com.rumeysaturker.supermomkotlinapp.utils.HomePagerAdapter
@@ -15,14 +16,21 @@ import kotlinx.android.synthetic.main.activity_home.*
 class HomeActivity : AppCompatActivity() {
     private val ACTIVITY_NUMBER = 0
     private val TAG = "HomeActivity"
+
+    lateinit var mAuth: FirebaseAuth
+    lateinit var mAuthListener: FirebaseAuth.AuthStateListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        FacebookSdk.sdkInitialize(applicationContext)
-        AppEventsLogger.activateApp(this)
         initImageLoader()
+        setupAuthListener()
+        mAuth = FirebaseAuth.getInstance()
+
         setupNavigationView()
         setupHomeViewPager()
+
+
     }
 
     fun setupNavigationView() {
@@ -52,5 +60,33 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
+    //kullanıcının oturum açıp açmadığıyla ilgili verileri tutan listener
+    private fun setupAuthListener() {
+        mAuthListener = object : FirebaseAuth.AuthStateListener {
+            override fun onAuthStateChanged(p0: FirebaseAuth) {
+                var user = FirebaseAuth.getInstance().currentUser
 
+                if (user == null) {
+                    var intent = Intent(this@HomeActivity, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                    startActivity(intent)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)//çıkış yapıldığında geri butonuna basınca homeactivityden başlatmaya çalışmasın
+                    finish()//home activitye gittikten sonra geri butonuna bastığında uygulamadan çıkıcak(ilk girişte)
+                } else {
+
+                }
+            }
+
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mAuth.addAuthStateListener(mAuthListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (mAuthListener != null)
+            mAuth.removeAuthStateListener(mAuthListener)
+    }
 }

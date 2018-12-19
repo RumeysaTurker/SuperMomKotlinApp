@@ -29,7 +29,7 @@
                     android:layout_height="50dp">
 
                     <ImageView
-                        android:id="@+id/imageView"
+                        android:id="@+id/imgBtnDegisiklikKaydet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -109,7 +109,7 @@
                 app:layout_constraintVertical_bias="0.047" />
 
             <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/tvChangePhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -130,7 +130,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Ad"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView16" />
+                app:layout_constraintTop_toBottomOf="@+id/tvChangePhoto" />
 
             <EditText
                 android:id="@+id/etProfileName"

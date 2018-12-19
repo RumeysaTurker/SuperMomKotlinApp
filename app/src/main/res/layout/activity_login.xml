@@ -18,6 +18,7 @@
         app:srcCompat="@drawable/logo_transparent" />
 
     <EditText
+
         android:id="@+id/etEmailTelorUserName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -27,7 +28,7 @@
         android:layout_marginRight="16dp"
         android:ems="10"
         android:hint="Telefon no, e-posta ya da kullanıcı adı"
-        android:background="@drawable/register_edit_text_acikrenk"
+        android:background="@drawable/register_edit_text"
         android:padding="16dp"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +47,7 @@
         android:layout_marginRight="16dp"
         android:ems="10"
         android:hint="Şifre"
-        android:background="@drawable/register_edit_text_acikrenk"
+        android:background="@drawable/register_edit_text"
         android:padding="16dp"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"

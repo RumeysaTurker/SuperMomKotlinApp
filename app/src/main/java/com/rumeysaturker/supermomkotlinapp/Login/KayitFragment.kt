@@ -81,7 +81,7 @@ class KayitFragment : Fragment() {
                                 break
                             }
                         }
-                     if (userNameKullanimdaMi == false) {
+
 
                             progressBar.visibility = View.VISIBLE
                             //kullanıcı mail ile kayıt olmak istiyorsa
@@ -129,7 +129,7 @@ class KayitFragment : Fragment() {
                                         })
                             }
                             //kullanıcı telefon no ile kayıt olmak istiyorsa
-                        }else {
+                        else {
                             var sifre = view.etSifre.text.toString()
                             var sahteEmail = telNo + "@rumeysa.com" //"+905557930000@rumeysa.com
                             var adSoyad = view.etAdSoyad.text.toString()
@@ -148,9 +148,11 @@ class KayitFragment : Fragment() {
                                                 var kaydedilecekKullanici = Users("", sifre, userName, adSoyad, telNo, sahteEmail, userID,kaydedilecekKullaniciDetaylari)
                                                 mRef.child("users").child(userID).setValue(kaydedilecekKullanici).addOnCompleteListener(object : OnCompleteListener<Void> {
                                                     override fun onComplete(p0: Task<Void>) {
-                                                        if (p0!!.isSuccessful) {//başarılı bir şekilde veri tabanına kaydedilmişse
+                                                       if (p0!!.isSuccessful) {//başarılı bir şekilde veri tabanına kaydedilmişse
                                                             Toast.makeText(activity, "Kullanıcı kaydedildi", Toast.LENGTH_SHORT).show()
                                                             progressBar.visibility = View.INVISIBLE
+                                                            var intent = Intent(activity, HomeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                                                            startActivity(intent)
                                                         } else {
                                                             progressBar.visibility = View.INVISIBLE
                                                             mAuth.currentUser!!.delete()//kullanıcıyı sil
@@ -220,7 +222,7 @@ class KayitFragment : Fragment() {
             gelenEmail = kayitBilgileri.email!!
 
             Toast.makeText(activity, "Gelen email: " + gelenEmail, Toast.LENGTH_SHORT).show()
-            Log.e("rümeysa", "Gelen tel no:" + gelenEmail)
+            Log.e("rümeysa", "Gelen email:" + gelenEmail)
         } else {
             emailIleKayitislemi = false
             telNo = kayitBilgileri.telNo!!

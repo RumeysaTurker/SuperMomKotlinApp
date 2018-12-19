@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.iid.FirebaseInstanceId
 import com.rumeysaturker.supermomkotlinapp.Home.HomeActivity
 import com.rumeysaturker.supermomkotlinapp.Models.Users
 import com.rumeysaturker.supermomkotlinapp.R
@@ -41,9 +42,14 @@ class LoginActivity : AppCompatActivity() {
         etSifre.addTextChangedListener(watcher)
 
         btnGirisYap.setOnClickListener {
+            if(etEmailTelorUserName.text.toString().trim().length >= 6 && etSifre.text.toString().trim().length >= 6){
+
             oturumAcacakKullaniciyiDenetle(etEmailTelorUserName.text.toString(), etSifre.text.toString())
 
-        }
+        }else{
+                Toast.makeText(this,"Kullanıcı adı veya şifre en az 6 karakter olmalıdır",Toast.LENGTH_SHORT).show()
+
+            }}
         tvGirisYap.setOnClickListener {
             //loginActivity'den RegisterActivity'e git
             var intent = Intent(this@LoginActivity, RegisterActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
@@ -54,34 +60,42 @@ class LoginActivity : AppCompatActivity() {
 
     private fun oturumAcacakKullaniciyiDenetle(emailPhoneNumberUserName: String, sifre: String) {
         var kullaniciBulundu = false
-        mRef.child("users").orderByChild("email").addListenerForSingleValueEvent(object : ValueEventListener {
+        mRef.child("users").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                for (ds in p0!!.children) {
-                    var okunanKullanici = ds.getValue(Users::class.java)
-                    if (okunanKullanici!!.email!!.toString().equals(emailPhoneNumberUserName)) {
-                        oturumAc(okunanKullanici, sifre, false)
-                        kullaniciBulundu = true
-                        break
-                    } else if (okunanKullanici!!.user_name!!.toString().equals(emailPhoneNumberUserName)) {
-                        oturumAc(okunanKullanici, sifre, false)
-                        kullaniciBulundu = true
-                        break
-                    } else if (okunanKullanici!!.phone_number!!.toString().equals(emailPhoneNumberUserName)) {
-                        oturumAc(okunanKullanici, sifre, true)//telefonla girmek istediğinden true
-                        kullaniciBulundu = true
-                        break
+                if(p0!!.getValue() != null ){
+                    for (ds in p0!!.children) {
+
+                        var okunanKullanici = ds.getValue(Users::class.java)
+
+                        if (!okunanKullanici!!.email!!.isNullOrEmpty() && okunanKullanici!!.email!!.toString().equals(emailPhoneNumberUserName)) {
+
+                            oturumAc(okunanKullanici, sifre, false)
+                            kullaniciBulundu=true
+                            break
+
+                        } else if (!okunanKullanici!!.user_name!!.isNullOrEmpty() && okunanKullanici!!.user_name!!.toString().equals(emailPhoneNumberUserName)) {
+                            oturumAc(okunanKullanici, sifre, false)
+                            kullaniciBulundu=true
+                            break
+                        } else if (!okunanKullanici!!.phone_number!!.isNullOrEmpty() && okunanKullanici!!.phone_number!!.toString().equals(emailPhoneNumberUserName)) {
+
+                            oturumAc(okunanKullanici, sifre, true)
+                            kullaniciBulundu=true
+                            break
+                        }
+
                     }
 
-                }
-                if (kullaniciBulundu == false) {
-                    Toast.makeText(this@LoginActivity, "Kullanıcı Bulunamadı", Toast.LENGTH_SHORT).show()
+                    if(kullaniciBulundu==false){
+
+                        Toast.makeText(this@LoginActivity,"Kullanıcı Bulunamadı", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
-
         })
     }
 
@@ -90,12 +104,17 @@ class LoginActivity : AppCompatActivity() {
         if (telefonIleGiris == true) {
             girisYapacakEmail = okunanKullanici.email_phone_number.toString()
         } else {
-            girisYapacakEmail = okunanKullanici.email.toString()
+            if(!okunanKullanici.email.toString().trim().isNullOrEmpty() && okunanKullanici.email_phone_number.toString().trim().isNullOrEmpty()){
+                girisYapacakEmail = okunanKullanici.email.toString()
+            }else {
+                girisYapacakEmail = okunanKullanici.email_phone_number.toString()
+            }
         }
         mAuth.signInWithEmailAndPassword(girisYapacakEmail, sifre)
                 .addOnCompleteListener(object : OnCompleteListener<AuthResult> {
                     override fun onComplete(p0: Task<AuthResult>) {
                         if (p0!!.isSuccessful) {
+                            fcmTokenKaydet()
                             Toast.makeText(this@LoginActivity, "Oturum açıldı :" + mAuth.currentUser!!.uid, Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(this@LoginActivity, "Kullanıcı Adı/Şifre Hatalı :", Toast.LENGTH_SHORT).show()
@@ -104,7 +123,20 @@ class LoginActivity : AppCompatActivity() {
 
                 })
     }
-
+    private fun fcmTokenKaydet() {
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
+            var token=it.token
+            yeniTokenVeritabaninaKaydet(token)
+        }
+    }
+    private fun yeniTokenVeritabaninaKaydet(yeniToken: String) {
+        if(FirebaseAuth.getInstance().currentUser != null ){
+            FirebaseDatabase.getInstance().getReference()
+                    .child("users")
+                    .child(FirebaseAuth.getInstance().currentUser!!.uid)
+                    .child("fcm_token").setValue(yeniToken)
+        }
+    }
     var watcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
 

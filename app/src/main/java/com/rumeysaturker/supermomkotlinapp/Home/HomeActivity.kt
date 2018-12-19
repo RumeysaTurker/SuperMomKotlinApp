@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.activity_home.*
 class HomeActivity : AppCompatActivity() {
     private val ACTIVITY_NUMBER = 0
     private val TAG = "HomeActivity"
-
     lateinit var mAuth: FirebaseAuth
     lateinit var mAuthListener: FirebaseAuth.AuthStateListener
 

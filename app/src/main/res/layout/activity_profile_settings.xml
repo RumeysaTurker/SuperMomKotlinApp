@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/profileSettingsRoot"
         android:layout_width="match_parent"
@@ -94,7 +95,7 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:context=".Profile.ProfileSettingsActivity">
+                    tools:context=".profile.ProfileSettingsActivity">
 
                     <TextView
                         android:id="@+id/textView6"

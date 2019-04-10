@@ -3,30 +3,88 @@
     package="com.rumeysaturker.supermomkotlinapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".VideoRecyclerView.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Home.HomeActivity"></activity>
+        <activity android:name=".home.ChatActivity"></activity>
+        <activity android:name=".generic.UserProfileActivity" />
+        <activity android:name=".game.ListActivity" />
+        <activity android:name=".game.OyunActivity" />
+        <activity android:name=".gorev.GorevActivity" />
 
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
 
-        <activity android:name=".News.NewsActivity" />
-        <activity android:name=".Profile.ProfileActivity" />
-        <activity android:name=".Search.SearchActivity" />
-        <activity android:name=".Share.ShareActivity" />
-        <activity android:name=".Profile.ProfileSettingsActivity" />
-        <activity android:name=".Login.LoginActivity" />
-        <activity android:name=".Login.RegisterActivity">
+        <service android:name="com.google.firebase.components.ComponentDiscoveryService" />
+
+        <meta-data
+            android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+            android:value="com.google.firebase.components.ComponentRegistrar" />
+        <meta-data
+            android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+            android:value="com.google.firebase.components.ComponentRegistrar" />
+        <meta-data
+            android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+            android:value="com.google.firebase.components.ComponentRegistrar" />
+
+        <activity
+            android:name=".home.HomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.rumeysaturker.supermomkotlinapp.HomeActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".profile.ProfileActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".search.SearchActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".search.AlgoliaSearchActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".share.ShareActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".profile.ProfileSettingsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.LoginActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.RegisterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".game.GameActivity" />
     </application>
 
 </manifest>

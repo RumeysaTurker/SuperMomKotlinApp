@@ -25,6 +25,8 @@ class UniversalImageLoader(val myContext: FragmentActivity?) {
                     .cacheOnDisk(true).cacheInMemory(true)
                     .cacheOnDisk(true).resetViewBeforeLoading(true)
                     .imageScaleType(ImageScaleType.EXACTLY)
+                    .considerExifParams(true)//fotoğrafın yana yatmaması için
+                    .bitmapConfig(Bitmap.Config.RGB_565)//gride resimleri getirirken daha düşük kalitede getir performans artışı için
                     .displayer(FadeInBitmapDisplayer(400)).build()
 
             return ImageLoaderConfiguration.Builder(myContext)
@@ -41,6 +43,8 @@ class UniversalImageLoader(val myContext: FragmentActivity?) {
             /*img URL=facebook.com/images/logo.jpeg*/
             //ilkKisim:http//
             val imageLoader = ImageLoader.getInstance()
+
+
             imageLoader.displayImage(ilkKisim + imgURL, imageView, object : ImageLoadingListener {
                 override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
                     if (mProgressBar != null) {

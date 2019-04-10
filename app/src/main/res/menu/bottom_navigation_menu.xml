@@ -12,13 +12,12 @@
     </item>
 
     <item
-        android:id="@+id/ic_share"
-        android:icon="@drawable/ic_share"
-        android:title="">
-    </item>
+        android:id="@+id/ic_game"
+        android:icon="@drawable/ic_game"
+        android:title=""></item>
     <item
-        android:id="@+id/ic_news"
-        android:icon="@drawable/ic_news"
+        android:id="@+id/ic_gorev"
+        android:icon="@drawable/ic_gorev"
         android:title="">
     </item>
     <item

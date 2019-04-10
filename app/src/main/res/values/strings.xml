@@ -2,7 +2,12 @@
     <string name="app_name">SuperMomKotlinApp</string>
     <string name="facebook_app_id">2115153338515079</string>
     <string name="fb_login_protocol_scheme">fb2115153338515079</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="filter_title">Görevleri Filtrele</string>
+    <string-array name="filter_options">
+        <item>Hepsi</item>
+        <item>Yapılacaklar</item>
+        <item>Tamamlanmış</item>
+    </string-array>
+
 </resources>

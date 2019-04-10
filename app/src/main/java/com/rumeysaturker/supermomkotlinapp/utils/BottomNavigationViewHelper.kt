@@ -5,12 +5,13 @@ import android.content.Intent
 import android.support.design.widget.BottomNavigationView
 import android.view.MenuItem
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
-import com.rumeysaturker.supermomkotlinapp.Home.HomeActivity
-import com.rumeysaturker.supermomkotlinapp.News.NewsActivity
-import com.rumeysaturker.supermomkotlinapp.Profile.ProfileActivity
+import com.rumeysaturker.supermomkotlinapp.home.HomeActivity
+import com.rumeysaturker.supermomkotlinapp.profile.ProfileActivity
 import com.rumeysaturker.supermomkotlinapp.R
-import com.rumeysaturker.supermomkotlinapp.Search.SearchActivity
-import com.rumeysaturker.supermomkotlinapp.Share.ShareActivity
+import com.rumeysaturker.supermomkotlinapp.game.GameActivity
+import com.rumeysaturker.supermomkotlinapp.gorev.GorevActivity
+import com.rumeysaturker.supermomkotlinapp.search.SearchActivity
+import com.rumeysaturker.supermomkotlinapp.share.ShareActivity
 
 class BottomNavigationViewHelper {
     companion object {
@@ -37,10 +38,17 @@ class BottomNavigationViewHelper {
                             context.startActivity(intent)
                             return true
                         }
-                        R.id.ic_news -> {
-                            val intent=Intent(context,NewsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                        R.id.ic_game -> {
+                            val intent=Intent(context, GameActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                             context.startActivity(intent)
                             return true
+
+                        }
+                        R.id.ic_gorev -> {
+                            val intent=Intent(context, GorevActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                            context.startActivity(intent)
+                            return true
+
                         }
                         R.id.ic_profile -> {
 
@@ -48,12 +56,7 @@ class BottomNavigationViewHelper {
                             context.startActivity(intent)
                             return true
                         }
-                        R.id.ic_share -> {
-                            val intent=Intent(context, ShareActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                            context.startActivity(intent)
-                            return true
 
-                        }
                     }
                     return false
                 }

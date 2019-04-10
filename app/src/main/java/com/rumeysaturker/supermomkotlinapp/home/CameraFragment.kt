@@ -1,102 +1,127 @@
 package com.rumeysaturker.supermomkotlinapp.home
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import com.otaliastudios.cameraview.*
 import com.rumeysaturker.supermomkotlinapp.R
+import com.rumeysaturker.supermomkotlinapp.share.ShareNextFragment
+import com.rumeysaturker.supermomkotlinapp.utils.EventBusDataEvents
+import kotlinx.android.synthetic.main.fragment_camera.*
+import kotlinx.android.synthetic.main.fragment_camera.view.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import java.io.File
+import java.io.FileOutputStream
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [CameraFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [CameraFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 class CameraFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-    private var listener: OnFragmentInteractionListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    var myCamera: CameraView? = null
+    var kameraIzniVerildiMi = false
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        var view = inflater?.inflate(R.layout.fragment_camera, container, false)
+
+        myCamera = view!!.camera_view
+        myCamera!!.mapGesture(Gesture.PINCH, GestureAction.ZOOM)
+        myCamera!!.mapGesture(Gesture.TAP, GestureAction.FOCUS_WITH_MARKER)
+
+
+        myCamera!!.addCameraListener(object : CameraListener() {
+
+            override fun onPictureTaken(jpeg: ByteArray?) {
+                super.onPictureTaken(jpeg)
+
+                var cekilenFotoAdi = System.currentTimeMillis()
+                var cekilenFotoKlasor = File(Environment.getExternalStorageDirectory().absolutePath + "/DCIM/AnnelerYarisiyorApp/compressed" + cekilenFotoAdi + ".jpg")
+
+                //if(cekilenFotoKlasor.isDirectory || cekilenFotoKlasor.mkdirs()){
+                //  var dosyaTamYolu=File(Environment.getExternalStorageDirectory().absolutePath +"/DCIM/Camera/"+cekilenFotoAdi+".jpg")
+                var dosyaOlustur = FileOutputStream(cekilenFotoKlasor)
+                dosyaOlustur.write(jpeg)
+                //Log.e("HATA2","cekilen resim buraya kaydedildi :"+dosyaTamYolu.absolutePath.toString())
+                dosyaOlustur.close()
+                activity!!.tasiyici.visibility = View.GONE
+                activity!!.camera_view.visibility = View.GONE
+                activity!!.frameLayout.setBackgroundColor(ContextCompat.getColor(activity!!, R.color.beyaz))
+                var transaction = activity!!.supportFragmentManager.beginTransaction()
+
+                EventBus.getDefault().postSticky(EventBusDataEvents.PaylasilacakResmiGonder(cekilenFotoKlasor.absolutePath.toString(), true))
+                transaction.replace(R.id.frameLayout, ShareNextFragment())
+                transaction.addToBackStack("shareNextFragmentEklendi")
+                transaction.commit()
+
+                //}
+
+
+            }
+
+
+        })
+
+        view.imgCameraSwitch.setOnClickListener {
+
+            if (myCamera!!.facing == Facing.BACK) {//arka kamera açıksa
+                myCamera!!.facing = Facing.FRONT//butona tıklanıldığında ön yap
+            } else {
+                myCamera!!.facing = Facing.BACK
+            }
+
         }
-    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return TextView(activity).apply {
-            setText(R.string.hello_blank_fragment)
+        view.imgFotoCek.setOnClickListener {
+
+            if (myCamera!!.facing == Facing.BACK) {
+                myCamera!!.capturePicture()
+            } else {
+                myCamera!!.captureSnapshot()
+            }
         }
+
+        return view
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
+    override fun onResume() {
+        super.onResume()
+        //Log.e("HATA2"," CAMERA FRAGMENTI ON RESUME")
+        if (kameraIzniVerildiMi == true)
+            myCamera!!.start()
     }
 
-    override fun onAttach(context: Context) {
+    override fun onPause() {
+        super.onPause()
+        //Log.e("HATA2"," CAMERA FRAGMENTI ON PAUSE")
+        myCamera!!.stop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        //Log.e("HATA2"," CAMERA FRAGMENTI ON DESTROY")
+
+        if (myCamera != null)
+            myCamera!!.destroy()
+    }
+
+    //EVENTBUS
+    @Subscribe(sticky = true)
+    internal fun onKameraIzinEvent(izinDurumu: EventBusDataEvents.KameraIzinBilgisiGonder) {
+        kameraIzniVerildiMi = izinDurumu.kameraIzniVerildiMi!!
+    }
+
+    override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
+        EventBus.getDefault().register(this)
     }
 
     override fun onDetach() {
         super.onDetach()
-        listener = null
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CameraFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                CameraFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
+        EventBus.getDefault().unregister(this)
     }
 }
